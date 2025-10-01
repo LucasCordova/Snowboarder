@@ -7,6 +7,8 @@ public class FinishLine : MonoBehaviour
         int layer = collision.gameObject.layer;
 
         print("You've completed the game!");
+        
+        Destroy(collision.gameObject.transform.parent.gameObject);
     }
 
 }
