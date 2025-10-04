@@ -1,17 +1,25 @@
 using UnityEngine;
 
+[RequireComponent(typeof(GameManager))]
 public class CrashDetection : MonoBehaviour
 {
+    private PlayerController playerController;
+    private GameManager gameManager;
+
+
+    void Start()
+    {
+        playerController = FindFirstObjectByType<PlayerController>();
+        gameManager = GetComponent<GameManager>();
+    }
+
+
     void OnTriggerEnter2D(Collider2D collision)
     {
         int layer = collision.gameObject.layer;
-        int playerIndexLayer = LayerMask.NameToLayer("PlayerLayer");
+        Debug.Log($"Collided with {collision.gameObject.name} - {layer}");
 
-
-        if (layer == playerIndexLayer)
-        {
-            print("You've crashed buddy");
-            
-        }
+        playerController.DisableControls();
+        gameManager.RestartScene();
     }
 }
