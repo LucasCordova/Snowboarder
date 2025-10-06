@@ -6,11 +6,14 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(TextMeshProUGUI))]
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] float restartDelay = 2f;
+    [SerializeField] float restartDelay = 5f;
     [SerializeField] TextMeshProUGUI gameText;
     [SerializeField] TextMeshProUGUI scoreText;
     private void Start()
     {
+        gameText = GameObject.Find("GameText").GetComponent<TextMeshProUGUI>();
+        scoreText = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
+
         UpdateGameText("Good luck!");
         UpdateScore(0);
     }
@@ -31,6 +34,6 @@ public class GameManager : MonoBehaviour
     }
     public void RestartScene() => Invoke(nameof(LoadScene), restartDelay);
     private void LoadScene() => SceneManager.LoadScene(0);
-    private void Awake() => DontDestroyOnLoad(gameObject);
+    //private void Awake() => DontDestroyOnLoad(gameObject);
 
 }
