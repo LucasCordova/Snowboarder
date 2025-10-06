@@ -10,7 +10,7 @@ public class CrashDetection : MonoBehaviour
     void Start()
     {
         playerController = FindFirstObjectByType<PlayerController>();
-        gameManager = GetComponent<GameManager>();
+        gameManager = FindFirstObjectByType<GameManager>();
     }
 
 
@@ -20,6 +20,7 @@ public class CrashDetection : MonoBehaviour
         Debug.Log($"Collided with {collision.gameObject.name} - {layer}");
 
         playerController.DisableControls();
+        gameManager.UpdateGameText("You crashed! Restarting...");
         gameManager.RestartScene();
     }
 }
