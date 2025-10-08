@@ -1,5 +1,8 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
@@ -15,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private bool canMove = true;
     private float previousRotation = 0f;
     private float totalRotation = 0f;
+    private float powerTimeRemaining;
 
     private void Start()
     {
@@ -26,6 +30,11 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         if (!canMove) return;
+
+        if (powerTimeRemaining > 0)
+        {
+            powerTimeRemaining -= Time.deltaTime;
+        }
 
         Vector2 moveVector = moveAction.ReadValue<Vector2>();
         RotatePlayer(moveVector);
@@ -61,4 +70,41 @@ public class PlayerController : MonoBehaviour
     }
 
     public void DisableControls() => canMove = false;
+
+    public void ActivatePowerup(PowerupScriptable powerup)
+    {
+        switch (powerup.Type)
+        {
+            case PowerupScriptable.PowerupType.Speed:
+                IncreaseSpeed(powerup);
+                break;
+            case PowerupScriptable.PowerupType.Torque:
+                IncreaseTorque(powerup);
+                break;
+
+        }
+    }
+
+    private void IncreaseTorque(PowerupScriptable powerup)
+    {
+        powerTimeRemaining = powerup.Time;
+        torqueAmount += powerup.Amount;
+    }
+
+    private void IncreaseSpeed(PowerupScriptable powerup)
+    {
+        powerTimeRemaining = powerup.Time;
+        baseSpeed += powerup.Amount;
+
+    }
+    
+        private void DecreaseTorque(PowerupScriptable powerup)
+    {
+        torqueAmount -= powerup.Amount;
+    }
+
+    private void DecreaseSpeed(PowerupScriptable powerup)
+    {
+        baseSpeed -= powerup.Amount;
+    }
 }

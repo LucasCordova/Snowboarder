@@ -34,6 +34,6 @@ public class GameManager : MonoBehaviour
     }
     public void RestartScene() => Invoke(nameof(LoadScene), restartDelay);
     private void LoadScene() => SceneManager.LoadScene(0);
-    //private void Awake() => DontDestroyOnLoad(gameObject);
+    // private void Awake() => DontDestroyOnLoad(gameObject);
 
 }
